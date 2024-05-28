@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX - Météo</title>
+    <style>
+        .meteos{
+            display : grid; 
+            grid-template-columns: repeat(5,1fr);
+            gap:30px; 
+        }
+
+        .meteos .meteo{
+            background-color: whitesmoke;
+            text-align: center;
+            color:black; 
+        }
+        
+    </style>
+    
+</head>
+<body>
+
+    <div class="meteos">
+        <div class="meteo meteo-0">
+            <div class="date"></div>
+            <div class="jour"></div>
+            <div class="temps"></div>
+            <div class="temperature"></div>
+            <img src="" alt="">
+        </div>
+    </div>
+    
+    
+    <script type="text/javascript">
+        const meteo0 = document.querySelector('.meteo-0');
+        
+        fetch("https://www.prevision-meteo.ch/services/json/lat=47.0502573lng=8.3092855")
+        .then(response => response.json())
+        .then(response => {
+            console.log(response)
+            console.log(response.fcst_day_0)
+
+            const result = response.fcst_day_0; 
+
+            meteo0.querySelector('.date').innerHTML = result.date;
+            meteo0.querySelector('.jour').innerHTML = result.day_long; 
+            meteo0.querySelector('.temps').innerHTML = result.condition;  
+            meteo0.querySelector('.temperature').innerHTML = `Min: ${result.tmin}°C <br> Max: ${result.tmax}°C`;
+            meteo0.querySelector('img').src = result.icon;          
+
+            
+        })
+    </script>
+</body>
+</html>
