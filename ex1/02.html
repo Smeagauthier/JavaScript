@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript exercice 2</title>
+</head>
+<body>
+<div id="name">Bonjour <span>...</span></div>
+<div id="price">Prix de la commande : <span>...</span></div>
+    
+    <script type="text/JavaScript">
+        const tva = 21; //Ne peut pas être changée
+        console.log(tva);
+        
+        let present = true; //peut importe l'assignation, si il y a quelque chose --> boolean true
+                         // Si est vide ou alors = 0 --> boolean false 
+        
+        
+        if(present){
+            console.log("Il sera présent !");
+        }
+
+        let name = "Rigaux"; 
+        let firstname = "Gauthier"; 
+        let email = "rig@gmail.com";
+        
+        let affichageEmail = firstname+" "+name+" <"+email+">";
+        affichageEmail = `${firstname} ${name} <${email}>`; 
+        console.log(affichageEmail);
+
+        let peluche = "10,75€";
+        let prix = parseFloat(peluche.replace(',','.')); 
+        console.log(typeof prix+ " "+prix);
+        //prix = parseInt(prix*100)/100 //Pour arrondir !!
+        prix = prix + (prix*tva/100);
+        prix = prix.toFixed(2)+"€"; 
+        console.log("Prix avec tva : "+prix);
+
+        let newPrice = 10.255; 
+        // document.write("Prix de la peluche : "+newPrice.toFixed(2)+"€");
+
+
+        document.querySelector('#name span').textContent=`${firstname} ${name}`;
+        document.querySelector('#price span').textContent=`${newPrice}€`;
+
+    </script>
+</body>
+</html>

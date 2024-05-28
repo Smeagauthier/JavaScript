@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandeau</title>
+    <style>
+
+header{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+}
+
+header nav{
+    width: 100%;
+    display: flex;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+header nav ul{
+    display: flex;
+    width: 50%;
+    list-style: none;
+}
+
+header nav ul li{
+    flex: 1;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background-color:rgb(226, 225, 225); 
+    height:50px; 
+}
+
+header nav ul li a{
+    color: black;
+    text-decoration: none;
+    font-size: 25px;
+}
+
+a:hover{
+    color:crimson; 
+    transition : color 0.7s ease; 
+}
+
+li:hover{
+    background-color: bisque;
+    transition : background-color 0.7s ease; 
+}
+
+.bandeau{
+    background-image: url("https://fastly.picsum.photos/id/702/1920/500.jpg?hmac=wE3cCeLgVbBLHPzuqWNCcUGyl3i40VQRF1RntnrHHqI");
+    background-position: center center;
+    background-size: cover;
+    width: 100%;
+    min-height: 80vh;
+    position: relative;
+}
+
+.titre{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: yellow;
+    font-size: 40px;
+    font-family: 'Courier New', Courier, monospace;
+}
+</style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a data-image="https://fastly.picsum.photos/id/702/1920/500.jpg?hmac=wE3cCeLgVbBLHPzuqWNCcUGyl3i40VQRF1RntnrHHqI" data-title="Home" href="#">Home</a></li>
+                <li><a data-image="https://fastly.picsum.photos/id/381/1920/500.jpg?hmac=mcpGdk7QOLTGnMQmM_bPeg8K6A2G3KBQXz1esrJan1U" data-title="Présentation" href="#">Présentation</a></li>
+                <li><a data-image="https://fastly.picsum.photos/id/276/1920/500.jpg?hmac=F8cXQ1FE0oVALtadDBfMjJk3OEYV5f0gJIOdGtNiFr8" data-title="Actualités" href="#">Actualités</a></li>
+                <li><a data-image="https://fastly.picsum.photos/id/358/1920/500.jpg?hmac=qaGvO-9ApPZHtsC6mVpijAz87HsqoE8aK6iLQRMub6o" data-title="Contact" href="#">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="bandeau">
+        <h1 class="titre">Home</h1>
+    </div>
+    <script type="text/javascript">
+        //Lorsque je passe ma souris sur les liens, je veux que le background change
+        const titles = document.querySelectorAll('li a');
+        const h1Variable = document.querySelectorAll('.titre');
+        const bandeau = document.querySelector('.bandeau'); 
+
+        //Pour chaque titre, lorsqu'on mouseover
+        titles.forEach(title => {
+            title.addEventListener('mouseover', () =>{
+                //On console log le titre du a href qu'on récupère
+                const titleText = title.innerHTML;
+                console.log(titleText);
+
+                //On doit changer le titre h1 dans le bandeau en fonction du titre du lien
+                h1Variable.forEach(h1 => {
+                    h1.innerHTML = titleText;
+                });
+                //On va récupérer le data-image du titre correspondant
+                bandeau.style.backgroundImage = `url(${title.dataset.image})`;
+                //On y ajoute une transition
+                bandeau.style.transition = "background-image 0.7s ease";
+
+            });
+        });
+        
+    </script>
+</body>
+</html>

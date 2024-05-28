@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<!-- /**
+ * Implements a parallax scrolling effect on a header element with multiple layers.
+ * The parallax effect is controlled by the user's mouse movement and the scroll position.
+ * Each layer in the header has a different parallax speed, controlled by the `data-delta` attribute.
+ * The function `refreshHeader` is responsible for calculating the transform values for each layer
+ * based on the scroll position and mouse position.
+ */ -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parallax - Firewatch</title>
+    <style>
+        *{margin : 0; padding:0; }
+        .lorem{background-color: #210002;height:100vh;}
+        .header{ position: relative; height:100vh; width:100%; overflow:hidden;}
+        .parallax{position:absolute; top:-5%; left:-10%; width:120%; height:110%; background-position: center; background-size: cover;}
+        .parallax0{background-image: url('images/parallax0.png');}
+        .parallax1{background-image: url('images/parallax1.png');}
+        .parallax2{background-image: url('images/parallax2.png');}
+        .parallax3{background-image: url('images/parallax3.png');}
+        .parallax4{background-image: url('images/parallax4.png');}
+        .parallax5{background-image: url('images/parallax5.png');}
+        .parallax6{background-image: url('images/parallax6.png');}
+        .parallax7{background-image: url('images/parallax7.png');}
+        .parallax8{background-image: url('images/parallax8.png');}
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="parallax parallax0" data-delta="0"></div>
+        <div class="parallax parallax1" data-delta="12.5"></div>
+        <div class="parallax parallax2" data-delta="20"></div>
+        <div class="parallax parallax3" data-delta="25"></div>
+        <div class="parallax parallax4" data-delta="32"></div>
+        <div class="parallax parallax5" data-delta="42"></div>
+        <div class="parallax parallax6" data-delta="50"></div>
+        <div class="parallax parallax7" data-delta="75"></div>
+        <div class="parallax parallax8" data-delta="100"></div>
+    </div>
+    <div class="lorem"></div>
+    <script>
+
+        /*----------------------------------- VERSION SIMPLE -----------------------------------*/
+        /*
+        const header = document.querySelector('.header')
+        const headerLayers = header.querySelectorAll('.parallax')
+		const refreshHeader = (e)=>{
+			const percent = Math.min(1, window.scrollY / header.offsetHeight )
+			headerLayers.forEach(layer=>{
+				const moveY = percent*(100-layer.dataset.delta)
+				layer.style.transform = `translateY(${moveY}%)`
+			})
+		}
+		window.addEventListener('scroll', refreshHeader)
+		window.addEventListener('resize', refreshHeader)
+		refreshHeader()
+        */
+        
+        /*----------------------------------- VERSION ABOUTIE -----------------------------------*/
+
+        //Récupérations du header et du parallax
+        const header = document.querySelector('.header')
+        const headerLayers = header.querySelectorAll('.parallax')
+
+		let posX = 0.5
+		let posY = 0.5
+
+        //Fonction refresh qui récupère la position du scroll et l'applique sur les layers
+		const refreshHeader = (e)=>{
+            //Récupérer à quel % de l'animation on doit être (en fonction de la hauteur du scroll et de celle du header)
+			const percent = Math.min(1, window.scrollY / header.offsetHeight )
+            //Pour chaque layer du parallax : 
+			headerLayers.forEach(layer=>{
+                //Mouvement horizontal de souris
+				const moveX = -posX * (100-layer.dataset.delta) / 12
+                //Mouvement vertical de souris
+				const mouseY = posY * (100-layer.dataset.delta) / 24 - 0.1
+                //Calcul du mouvement final en fonction du % de l'animation et du mouvement de la souris
+				const moveY = percent*(100-layer.dataset.delta) * 0.9 + mouseY
+                //transform de x et y en %
+				layer.style.transform = `translate(${moveX}%,${moveY}%)`
+			})
+		}
+       //event qui va calculer comment bouger horizontalement et verticalement selon la position de la souris
+		window.addEventListener('mousemove',(e)=>{
+			posX = e.clientX / window.innerWidth
+			posY = e.clientY / window.innerHeight
+			// console.log(posX,posY)
+			refreshHeader()
+		})
+        //Assurer que le parallax s'exécute si scroll même en si on a resize la fenêtre
+		window.addEventListener('scroll', refreshHeader)
+		window.addEventListener('resize', refreshHeader)
+		refreshHeader()   
+    </script>
+</body>
+</html>

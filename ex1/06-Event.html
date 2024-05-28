@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event</title>
+    <style>
+        .blocs{
+            display:grid; 
+            grid-template-columns: repeat(3,1fr);
+            
+        }
+        .block{
+            display:flex; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height:50vh; 
+            color:white; 
+        }
+        
+        .red{
+            background-color: crimson;
+        }
+        .green{
+            background-color: rgb(48, 173, 48);
+        }
+        .blue{
+            background-color: aquamarine;
+        }
+    </style>
+</head>
+<body>
+    <div class="blocs">
+        <div class="block red"></div>
+        <div class="block green"></div>
+        <div class="block blue"></div>
+    </div>
+    
+    <script type="text/javascript">
+        const div = document.querySelector('.blocs') //Sélectionner l'élément ayant la classe blocs        
+        const vert = document.querySelector('.blocs .green') //Sélectionner l'élément ayant la classe green    
+        const rouge = document.querySelector('.blocs .red')    
+        const bleu = document.querySelector('.blocs .blue')    
+        
+        //A chaque clique un cpt s'incrémente dans vert
+        let cpt = 0
+        div.addEventListener('click', () => { // Ajouter un event si l'on clique, on cpt++ et on ajoute à l'élément cpt 
+        cpt++; 
+        vert.innerText = cpt; 
+    })
+    
+    //Lorsque je bouge la souris sur l'écran je veux récupérer les coordonées de la souris (avec pourcentage aussi)
+    document.addEventListener('mousemove', (e) => { //utiliser la fonction mousemove
+        console.log('e :>> ', e);
+        let x = e.clientX; //on recherche la coordonnée X et Y du client via l'event e
+        let y = e.clientY;
+        rouge.innerHTML = `<p> X: ${x}</p><p> Y: ${y}</p> <p> Percentage X: ${(e.clientX/window.innerWidth*100).toFixed(2)} %</p><p> Percentage Y: ${(e.clientY/window.innerHeight*100).toFixed(2)} %</p>`;
+ //Affichage dans l'élément html rouge avec des templates
+    })
+    //--------------------------------------------------------------
+    
+    //Lorsque je passe ma souris dans la zone bleue, un compteur au milieu de celle-ci fait +1
+    let cpt2 = 0
+    bleu.addEventListener('mouseover', (e)=>{
+        cpt2++;
+        bleu.innerText = cpt2; 
+    })
+    //--------------------------------------------------------------
+
+    //Je veux que ma zone bleue devienne mauve lorsque je la survole
+    bleu.addEventListener('mouseenter', (e)=>{
+        bleu.style.backgroundColor = 'purple';
+    })
+    //--------------------------------------------------------------
+
+</script>
+</body>
+</html>

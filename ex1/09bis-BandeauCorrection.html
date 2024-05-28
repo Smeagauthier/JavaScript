@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        html,body{margin:0;padding:0;}
+        .header{position:fixed;top:0;left:0;width:100%;z-index:100;background:rgba(255,255,255,0.7);}
+        .header .menu{padding:30px;display:flex;justify-content:center;align-items:center;gap:20px;font-size:30px;}
+        .header .menu a{font-weight:900;color:brown;text-decoration:none;transition:color 0.5s ease-in-out;}
+
+        /* Classe active du menu pour changer sa couleur */
+        .header .menu a.active{color:#b17a14;}
+        #bandeaux{width:100%;height:600px;position:relative;overflow:hidden;}
+        #bandeaux .bandeau{position:absolute;opacity:0;left:0;top:0;width:100%;height:100%;transition:opacity 0.5s ease-in-out;}
+        #bandeaux .bandeau img{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);min-width:101vw;min-height:600px;}
+        #bandeaux .bandeau h2{position:absolute;bottom:50px;left:30%;font-size:60px;font-weight:900;color:white;text-shadow: 0px 0px 20px black;}
+
+        /*Classe active du bandeau avec une opacité à 1 pour l'afficher*/
+        #bandeaux .bandeau.active{z-index:2;opacity:1;}
+
+        /* Ajout d'une bande "timer" */
+        #bandeaux .bande{position:absolute;z-index:3;left:0;bottom:0;height:5px;background:#f00;width:0%;}
+    
+    </style>
+    
+</head>
+<body>
+    <div class="header">
+        <div class="menu">
+            <a href="#" data-ref="portrait">Portraits</a>
+            <a href="#" data-ref="paysage">Paysages</a>
+            <a href="#" data-ref="animal">Animaux</a>
+            <a href="#" data-ref="mariage">Mariages</a>
+            <a href="#" data-ref="architecte">Architecture</a>
+        </div>
+    </div>
+    <!-- Chaque bandeau avec une photo et un data -->
+    <div id="bandeaux">
+        <!-- Bande de timer -->
+        <div class="bande"></div>
+        <div class="bandeau" data-bandeau="portrait">
+            <img src="https://fastly.picsum.photos/id/173/1600/600.jpg?hmac=amuck7hXGi_oM80tSLWwNn2GMrf04E_Irz15Mn1C_fQ" alt="">
+            <h2>Portraits</h2>
+        </div>
+        <div class="bandeau" data-bandeau="paysage">
+            <img src="https://fastly.picsum.photos/id/318/1600/600.jpg?hmac=P-iaUUZt-GQv9drQ0P12fYWjH_OmdSx8ErSQzQabXbI" alt="">
+            <h2>Paysages</h2>
+        </div>
+        <div class="bandeau" data-bandeau="animal">
+            <img src="https://fastly.picsum.photos/id/811/1600/600.jpg?hmac=jiBhCzayVM0UzSBGL7BI6ZGU8OjGIjf3bXV_W3PeKtE" alt="">
+            <h2>Animaux</h2>
+        </div>
+        <div class="bandeau" data-bandeau="mariage">
+            <img src="https://fastly.picsum.photos/id/666/1600/600.jpg?hmac=xQvtV1oRDMdrhqgcEWvaqxJ-j95Rcg9eGZGFdK3mZRU" alt="">
+            <h2>Mariages</h2>
+        </div>
+        <div class="bandeau" data-bandeau="architecte">
+            <img src="https://fastly.picsum.photos/id/11/1600/600.jpg?hmac=UvvrAOkoOePXIDanOJteIjDWqZPUrCoJZOAotW4bHlM" alt="">
+            <h2>Architecture</h2>
+        </div>
+    </div>
+
+    
+    <script type="text/javascript">
+
+        //Initialisation d'un flag timer et de time
+        let timeLock = false
+        let time = 0
+
+        //On récupère le menu et l'élément bandeau
+        const bandeaux = document.querySelectorAll("#bandeaux .bandeau");
+        const menu = document.querySelectorAll(".menu a");
+        const bande = document.querySelector("#bandeaux .bande")
+
+        
+        //Fonction changeSlide qui prend en paramètre l'élément sur lequel on "hover" de la liste menu
+        const changeSlide = (item)=>{
+
+            //On récupère la data-ref de l'élément du menu qu'on "hover"
+            const bandeau = document.querySelector(`[data-bandeau="${item.dataset.ref}"]`);
+
+            //On retire la classe active de tous les éléments de la liste bandeaux
+            bandeaux.forEach(bandeau => {
+                bandeau.classList.remove("active");
+            })
+
+            //On ajoute la clase "active" avec une opacité à 1 pour afficher la photo de l'élément dont on a récupéré la data-ref
+            bandeau.classList.add("active");
+
+            //On veut changer la couleur du menu qui est "hover" donc on appel la classe "active" du menu 
+            menu.forEach(m => {
+                m.classList.remove("active");
+            })
+            item.classList.add("active");
+        }
+
+        //Pour chaque élément du menu, si on le survole on appelle changeSlide
+        menu.forEach(item => {
+            item.addEventListener("mouseover", () => {
+                changeSlide(item)
+            })
+        })
+
+        //Par défaut, affichage du menu[0] (portraits)
+        changeSlide(menu[0])
+
+        //---------------------------------------- TIMER ----------------------------------------
+
+        //Fonction timeChange
+        const timeChange = ()=>{
+
+            // Incrémentation du timer seulement si timeLock est false
+            if(!timeLock) time+=10
+
+            // Réinitialisation du timer après 2000 ms et passage au slide suivant
+            if(time>2000){
+                time = 0
+                
+                //On récupère l'élément du menu qui est actif et on récupère l'index de l'élément actif
+                const active = document.querySelector(".menu a.active")
+                const index = Array.from(menu).indexOf(active)
+
+                //On ajoute 1 à l'index pour passer au slide suivant
+                const next = menu[index+1] || menu[0]
+
+                //Changement de slide, passage au suivant
+                changeSlide(next)
+            }
+
+            // Mise à jour visuelle de la progression du timer (augmentation de la largeur)
+            bande.style.width = time/2000*100 + "%"
+            console.log("time",time)
+        }
+        
+        //Fonction pour donner la cadence du timer --> setInterval va exécuter la méthode timeChange toutes les 10ms
+        setInterval(timeChange, 10)
+        
+        //Si la souris est dans le header ou dans la div #bandeaux --> flag à true et le timer s'arrête, si on quitte ces zones, le timer reprend
+        document.querySelector('#bandeaux').addEventListener('mouseover',()=>{
+            timeLock = true
+        })
+        document.querySelector('#bandeaux').addEventListener('mouseout',()=>{
+            timeLock = false
+        })
+        document.querySelector('.header').addEventListener('mouseover',()=>{
+            timeLock = true
+        })
+        document.querySelector('.header').addEventListener('mouseout',()=>{
+            timeLock = false
+        })
+    </script>
+</body>
+</html>

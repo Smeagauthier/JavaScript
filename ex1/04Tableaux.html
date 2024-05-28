@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      
+    </style>
+  </head>
+  <body>
+
+    
+    <script type="text/javascript">
+      var datas = {}; // Objet vide
+      datas.title = "Hello World";
+      datas["description"] = "Description de ma page";
+      console.log(datas)
+      console.log(datas.title)
+
+
+      const contact = {}
+      contact.name = "Wellens"
+      contact.firstname = "Ludovic"
+      contact.email = "wellens@epse.be"
+      contact.tel = "0554/54.54.54"
+      console.log(contact)
+
+      for(cont in contact){
+        console.log(cont)
+        console.log(contact[cont])
+      }
+
+      const myArray = [12,112,454,987,654,321,654,3654]
+      for(ar of myArray){
+        console.log(ar)
+      }
+      for(ar in myArray){
+        console.log(ar)
+        console.log(myArray[ar])
+      }
+
+
+      myArray.forEach((element,cle) => {
+        console.log(cle)
+        console.log(element)
+      });
+
+
+
+      const news = [
+        {
+          title:"Invasion en Ukraine",
+          description:"C'est la misère",
+          hot: false
+        },
+        {
+          title: "Pokemon Go est toujours en ligne",
+          description: "mais n'y rejouez pas",
+          hot: true
+        },
+        {
+          title: "Elections Européennes",
+          description: "Allez voter, c'est obligatorie",
+          hot: true
+        }
+      ]
+      news.forEach(info =>{
+        if(info.hot){
+          console.log(info.title)
+        }
+      })
+
+
+
+    </script>
+  </body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 3 </title>
+    <style>
+        .cadre a{
+            border:2px solid yellow;
+            color : green;
+            transition: 0.3s ease-in-out;
+        }
+        .cadre a:hover{
+            background:purple; 
+        }
+        .cadre2 a{
+            background-color: aqua;
+        }
+    </style>
+</head>
+<!-- DOM = boite et NODE = objet dans le DOM -->
+
+<body>
+    <h1>Menu 1</h1>
+    <ul class="menu">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <h1>Menu 2</h1>
+    <ul class="menu2">
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#realisations">Réalisations</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <script type="text/javascript">
+        const menus = document.querySelectorAll('.menu li a'); //Récupérer tous les liens qui sont dans le menu
+        console.log(menus);
+        menus.forEach(elem => {
+            console.log(elem); //APPEL DE FONCTION DIRECTEMENT
+        }); 
+
+        //----------------------------------------------------------------------------------------------------
+        const parcourir = (elem) => {
+            console.log(elem); 
+        } //NOUVELLE ECRITURE DES FONCTIONS
+        //menus.forEach(parcourir); 
+
+        // function parcourir(elem){
+        //     console.log(elem); 
+        // } // => ANCIENNE ECRITURE DES FONCTIONS
+
+
+        //----------------------------------------------------------------------------------------------------
+        //Ajouter une couleur rouge seulement à l'élément #contact"
+        const obtenirLien = (lienElem) => {
+            let url = lienElem.getAttribute('href');
+            if(url == "#contact"){
+                console.log('%c'+url, 'color : red');
+                lienElem.style.color = "red";  
+            } else {
+                console.log(url);
+                lienElem.style.color="green";  
+            }
+        }
+        menus.forEach(obtenirLien); 
+
+
+        //----------------------------------------------------------------------------------------------------
+        //Parcourir les éléments du menu2, mettre une classe "cadre" sur le li du menu qui possède le lien "#contact"
+        const menu2  = document.querySelectorAll('.menu2 li a'); //Récupérer tous les liens qui sont dans le menu
+        const ajouterClass = (elem) => {
+            let url = elem.getAttribute('href');
+            if(url == "#contact"){
+                elem.parentNode.classList.add("cadre"); 
+            } else {
+                console.log(url);
+            }
+        }
+        menu2.forEach(ajouterClass);
+        
+        //Correction alternative-------------------------------------------------------------------------------
+        const menuLi = document.querySelectorAll('.menu2 li'); 
+        menuLi.forEach(li => {
+            console.log(li);
+            console.log(li.querySelectorAll('a'));
+            const link = li.querySelector('a'); 
+            console.log(link);
+            if(link.getAttribute('href')=="#services"){
+                li.setAttribute('class', 'cadre'); //Ajoute l'attribut "class" et lui donne cadre comme valeur (problème est que si une classe existe déjà elle est ecrasée) 
+                li.classList.add("cadre2"); //Meilleure option car ajoute la classe sans écraser une autre 
+            }   
+        }); 
+
+    </script>
+</body>
+</html>

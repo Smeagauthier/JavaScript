@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercice 1 en JavaScript
+    </title>
+</head>
+<body>
+    <script type="text/JavaScript">
+        let name = "Gauthier"; 
+
+        console.log("Nom : "+ name);
+        let age = 23; 
+        console.log("Je m'appelle "+name+" et j'ai "+age+" ans");
+
+        if(age<30){
+            console.log("Tu es jeune");
+
+        }
+        
+        let jour = new Date().toDateString();
+        console.log(jour);
+
+        let annee = new Date().getFullYear(); 
+        let dateNaiss = annee - age; 
+        console.log("Tu es né en : "+dateNaiss);
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .burger{            
+            display: block;
+            position: fixed;
+            z-index: 100;
+            top: 0;
+            right: 0;
+            background-color: crimson;
+            width: 100px;
+            height: 100px;
+        }
+        .menu{
+            position: fixed;
+            z-index: 99;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: #ccc;
+            font-size: 30px;
+            line-height: 50px;
+        }
+        .menu a{
+            color: #000;
+        }
+        .socials{
+            position: fixed;
+            z-index: 100;
+            right: 0;
+            bottom: 0;
+            display: none;
+        }
+        .socials a{
+            display: block;
+        }
+        .menuOpened .menu{
+            display: flex;
+        }
+        .menuOpened .socials{
+            display: block;
+        }
+    </style>
+    
+</head>
+<body>
+    <div class="header">
+        <div class="burger">
+            <span></span>
+            <span></span>
+        <span></span>
+        </div>
+        <div class="menu">
+            <a href="#">Accueil</a>
+            <a href="#">Services</a>
+            <a href="#">Réalisations</a>
+            <a href="#">Contact</a>
+        </div>
+        <div class="socials">
+            <a href="#">facebook</a>
+            <a href="#">twitter</a>
+        </div>
+    </div>
+    <h1>Exercice 08</h1>
+    <p>
+        Aliquam vitae tempus turpis, rhoncus lacinia tellus. Nunc venenatis, arcu et congue porttitor, ante tellus venenatis tellus, vel commodo dolor mi et massa. <strong>Donec maximus</strong> nisl sed sapien volutpat mollis. Quisque ac nisl consectetur felis faucibus hendrerit at at libero. Praesent nibh elit, varius eget ipsum id, aliquet consequat sapien. Suspendisse quis fringilla sem, sit amet dapibus velit. Aenean et hendrerit neque. Proin nec nisi mi.
+    </p>
+    <p>
+        Aliquam vitae tempus turpis, rhoncus lacinia tellus. Nunc venenatis, arcu et congue porttitor, ante tellus venenatis tellus, vel commodo dolor mi et massa. <strong>Donec maximus</strong> nisl sed sapien volutpat mollis. Quisque ac nisl consectetur felis faucibus hendrerit at at libero. Praesent nibh elit, varius eget ipsum id, aliquet consequat sapien. Suspendisse quis fringilla sem, sit amet dapibus velit. Aenean et hendrerit neque. Proin nec nisi mi.
+    </p>
+    <p>
+        Aliquam vitae tempus turpis, rhoncus lacinia tellus. Nunc venenatis, arcu et congue porttitor, ante tellus venenatis tellus, vel commodo dolor mi et massa. <strong>Donec maximus</strong> nisl sed sapien volutpat mollis. Quisque ac nisl consectetur felis faucibus hendrerit at at libero. Praesent nibh elit, varius eget ipsum id, aliquet consequat sapien. Suspendisse quis fringilla sem, sit amet dapibus velit. Aenean et hendrerit neque. Proin nec nisi mi.
+    </p>
+    <script type="text/javascript">
+
+        //Je veux un bouton qui lorsqu'on clique dessus, ouvre le menu entièrement sur la page
+        const burger = document.querySelector('.burger');
+        const header = document.querySelector('.header');
+
+        //Je veux que le menu soit ouvert
+        function openMenu(){
+            header.classList.add('menuOpened');
+        }
+
+        //Je veux que le menu soit fermé
+        function closeMenu(){
+            header.classList.remove('menuOpened');
+        }
+
+        //Si menu ouvert et click --> Ca le ferme ET si menu fermé et click --> Ca l'ouvre
+        burger.addEventListener('click', () => {
+            if(header.classList.contains('menuOpened')){
+                closeMenu();
+            }else{
+                openMenu();
+            }
+        });
+
+    </script>
+</body>
+</html>

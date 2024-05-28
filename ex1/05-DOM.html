@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      
+      .list-news{
+        position: relative;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        background: #eee;
+        margin: 5vw 0;
+        padding: 5vw;
+        gap: 5vw;
+      }
+      .news{
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* HTML: <div class="loader"></div> */
+      .loader {
+        width: 40px;
+        aspect-ratio: 1;
+        display: flex;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+      }
+      .loader:before,
+      .loader:after {
+        content: "";
+        flex: 1;
+        background: #f03355;
+        animation: l21 2s infinite;
+        border-radius: 100px 0 0 100px;
+        transform-origin: top right;
+        transform: translateY(calc(var(--s,1)*0%)) rotate(0);
+      }
+      .loader:after {
+        transform-origin: bottom left;
+        border-radius: 0 100px 100px 0;
+        --s:-1;
+      }
+      @keyframes l21 {
+        33%  {transform: translate(0,calc(var(--s,1)*50%)) rotate(0)}
+        66%  {transform: translate(0,calc(var(--s,1)*50%)) rotate(-90deg)}
+        90%,
+        100% {transform: translate(calc(var(--s,1)*-100%),calc(var(--s,1)*50%))  rotate(-90deg)}
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="list-news">
+      <div class="loader"></div>
+    </div>
+    
+    <script type="text/javascript">
+      
+      const news = [
+        {
+          title:"Invasion en Ukraine",
+          description:"C'est la misère",
+          hot: false
+        },
+        {
+          title: "Pokemon Go est toujours en ligne",
+          description: "mais n'y rejouez pas",
+          hot: true
+        },
+        {
+          title: "Elections Européennes",
+          description: "Allez voter, c'est obligatorie",
+          hot: true
+        }
+      ]
+
+      const listNews = document.querySelector('.list-news'); 
+      const loaderNews = document.querySelector('.list-news .loader'); 
+
+
+      news.forEach(info =>{
+        const div = document.createElement('div');  // Donne le type de l'élément que tu vas afficher (ici div), on pourrait mettre h2, h3,...
+        div.classList.add('news'); //Cibler la classe css news 
+        // div.innerText = info.title; // Mets moi le texte "titre" de l'objet info dans le div créé 
+        // listNews.appendChild(div);  // Concatène moi les div dans la liste "listNews"
+        // console.log('div :>> ', div); //Affiche les moi dans les logs
+
+        
+        const titre = document.createElement('h3');
+        titre.innerText = info.title;
+
+        const desc = document.createElement('p');
+        desc.innerText = info.description;
+
+        div.appendChild(titre);  
+        div.appendChild(desc); 
+
+        listNews.appendChild(div); 
+
+        if(info.hot){
+            div.classList.add('hot'); //Rajouter la classe hot si l'objet à un champ hot à vrai
+        }
+
+        // loaderNews.style.display = "none"; //Cache le loader 
+        
+        listNews.removeChild(loaderNews); //Supprime le loader
+        console.log('loaderNews :>> ', loaderNews);
+        listNews.appendChild(loaderNews); //Réaffiche le loader supprimé 
+      })
+
+    </script>
+  </body>
+</html>
