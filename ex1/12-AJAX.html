@@ -1,56 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AJAX - Météo</title>
     <style>
-        .meteos{
-            display : grid; 
-            grid-template-columns: repeat(5,1fr);
-            gap:30px; 
+        .meteos {
+            display: grid; 
+            grid-template-columns: repeat(5, 1fr);
+            gap: 30px; 
         }
-
-        .meteos .meteo{
+        .meteos .meteo {
             background-color: whitesmoke;
             text-align: center;
-            color:black; 
+            color: black; 
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        
     </style>
-    
 </head>
 <body>
-
-    <div class="meteos">
-        <div class="meteo meteo-0">
-            <div class="date"></div>
-            <div class="jour"></div>
-            <div class="temps"></div>
-            <div class="temperature"></div>
-            <img src="" alt="">
-        </div>
-    </div>
-    
-    
+    <div class="meteos"></div>
     <script type="text/javascript">
-        const meteo0 = document.querySelector('.meteo-0');
-        
         fetch("https://www.prevision-meteo.ch/services/json/lat=47.0502573lng=8.3092855")
         .then(response => response.json())
         .then(response => {
-            console.log(response)
-            console.log(response.fcst_day_0)
+            console.log(response);
+            const days = ['fcst_day_0', 'fcst_day_1', 'fcst_day_2', 'fcst_day_3', 'fcst_day_4'];
+            const meteos = document.querySelector('.meteos');
 
-            const result = response.fcst_day_0; 
+            days.forEach((day, index) => {
+                const result = response[day];
+                console.log('result :>> ', result);
 
-            meteo0.querySelector('.date').innerHTML = result.date;
-            meteo0.querySelector('.jour').innerHTML = result.day_long; 
-            meteo0.querySelector('.temps').innerHTML = result.condition;  
-            meteo0.querySelector('.temperature').innerHTML = `Min: ${result.tmin}°C <br> Max: ${result.tmax}°C`;
-            meteo0.querySelector('img').src = result.icon;          
-
-            
+                const meteo = document.createElement('div');
+                meteo.classList.add('meteo', `meteo-${index}`);
+                meteo.innerHTML = `
+                    <div class="date">${result.date}</div>
+                    <div class="jour">${result.day_long}</div>
+                    <div class="temps">${result.condition}</div>
+                    <div class="temperature">Min: ${result.tmin}°C <br> Max: ${result.tmax}°C</div>
+                    <img src="${result.icon}" alt="image du temps : ${result.condition}">
+                `;
+                
+                meteos.appendChild(meteo);
+            });
         })
     </script>
 </body>
