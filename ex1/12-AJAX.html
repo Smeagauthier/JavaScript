@@ -30,19 +30,18 @@
             const days = ['fcst_day_0', 'fcst_day_1', 'fcst_day_2', 'fcst_day_3', 'fcst_day_4'];
             const meteos = document.querySelector('.meteos');
 
-            days.forEach((day, index) => {
+            days.forEach((day, cpt) => {
                 const result = response[day];
                 console.log('result :>> ', result);
 
                 const meteo = document.createElement('div');
-                meteo.classList.add('meteo', `meteo-${index}`);
+                meteo.classList.add('meteo', `meteo-${cpt}`);
                 meteo.innerHTML = `
                     <div class="date">${result.date}</div>
                     <div class="jour">${result.day_long}</div>
                     <div class="temps">${result.condition}</div>
                     <div class="temperature">Min: ${result.tmin}°C <br> Max: ${result.tmax}°C</div>
-                    <img src="${result.icon}" alt="image du temps : ${result.condition}">
-                `;
+                    <img src="${result.icon}" alt="image du temps : ${result.condition}">`;
                 
                 meteos.appendChild(meteo);
             });
