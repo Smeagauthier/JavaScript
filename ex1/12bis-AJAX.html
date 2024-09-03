@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body{padding: 3vw;margin:0;}
+        .meteos{
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            width: 100%;
+            gap: 3vw;
+        }
+        .meteos .meteo{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid #ccc;
+            padding: 3vw;
+        }
+        .meteo .img{
+            max-width: 100%;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    
+    <div class="meteos">
+
+    </div>
+    
+    <script type="text/javascript">
+        const meteos = document.querySelector('.meteos')
+        
+        const loadMeteo = () => {
+            fetch("https://www.prevision-meteo.ch/services/json/lat=47.0502573lng=8.3092855")
+            .then(response => response.json()) // Converti en JSON les données récupérées par l'AJAX, la retourne dans le THEN suivant
+            .then(response => {
+                // console.log(response)
+                showMeteo(response)
+            })
+            .catch((reason) => { // pour les erreurs de récupération AJAX
+                if (reason === -999) {
+                    console.error("Erreur précédemment gérée");
+                } else {
+                    console.error(`Problème avec promiseGetWord(): ${reason}`);
+                }
+            })
+        }
+
+        const showMeteo = datas => {
+            console.log(datas)
+            for(i=0;i<5;i++){
+                showMeteoDatas(i,datas['fcst_day_'+i])
+            }
+            // TEST pour parcourir toutes les données automatiquement sans connaitre le nombre d'itérations
+            // let i=0
+            // while('fcst_day_'+i in datas){
+            //     console.log(datas['fcst_day_'+i])
+            //     i++
+            // }
+        }
+        const showMeteoDatas = (n,data) => { // On construit et on affiche les données par date
+            console.log(n,data)
+            const meteo = document.createElement('div')
+            meteo.classList.add('meteo')
+            meteos.appendChild(meteo)
+
+            const date = document.createElement('div')
+            date.classList.add('date')
+            date.innerText = data.date
+            meteo.appendChild(date)
+
+            const day = document.createElement('div')
+            day.classList.add('day')
+            day.innerText = data.day_long
+            meteo.appendChild(day)
+
+            const condition = document.createElement('div')
+            condition.classList.add('condition')
+            condition.innerText = data.condition
+            meteo.appendChild(condition)
+
+            const min = document.createElement('div')
+            min.classList.add('min')
+            min.innerText = 'Min : '+data.tmin
+            meteo.appendChild(min)
+
+            const max = document.createElement('div')
+            max.classList.add('max')
+            max.innerText = 'Max : '+data.tmax
+            meteo.appendChild(max)
+
+            const img = document.createElement('img')
+            img.classList.add('img')
+            img.src = data.icon_big
+            meteo.appendChild(img)
+        }
+
+        loadMeteo()
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<html>
+    <head>
+        <title>Demineur</title>
+        
+        <style>
+            .demineur {
+                display: grid;
+                width: min-content;
+                background-color: red;
+                gap: 10px;
+            }
+            .demineur .case{
+                background: #0f0;
+                width: 40px;
+                height: 40px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .demineur .case.flag{
+                background: rgb(219, 162, 255);
+            }
+            .demineur .case.show{
+                background: rgb(162, 218, 255);
+            }
+            .demineur .case.bombe{
+                background: #f00;
+            }
+        </style>
+    </head>
+    <body>
+
+        <div class="demineur">
+
+        </div>
+
+        <script type="text/javascript">
+
+            function isNumeric(n) {
+                if(typeof(n)=="undefined") return false
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
+            const checkWin = () => {
+                let win = true
+                for (let y = 0; y < height; y++) {
+                    for (let x = 0; x < width; x++) {
+                        let elem = demineur.children[x + y * width]
+                        if(!elem.classList.contains('show') && table[y][x]!="B") win = false
+                    }
+                }
+                if(win){
+                    play = false
+                    alert("You win!")
+                }
+            }
+            const checkCase = (x,y) => {
+                if(!play) return
+                let elem = demineur.children[x + y * width]
+                if(elem.classList.contains('show')) return
+                else if(elem.classList.contains('flag')) return
+                else elem.classList.add('show')
+
+                // console.log(x,y)
+                if(table[y][x]=="B"){
+                    // Une bombe, t'est mort !
+                    elem.classList.add('bombe')
+                    play = false
+                }else if(table[y][x]==0){
+                    // Pas de bombe autour, on divulgue les autres cases autour
+                    for (let y2 = y-1; y2 <= y+1; y2++) {
+                        for (let x2 = x-1; x2 <= x+1; x2++) {
+                            if(isNumeric(x2) && isNumeric(y2) && x2 >= 0 && x2 < width && y2 >= 0 && y2 < height){
+                                checkCase(x2,y2)
+                            }
+                        }
+                    }
+                }else{
+                    // Une bombe autour, on ne divulgue que la case cliquée
+                    elem.innerText = table[y][x]
+                }
+                checkWin()
+            }
+
+            const demineur = document.querySelector('.demineur');
+            const width = 10
+            const height = 10
+            let total = 5
+            const table = []
+            let play = true
+
+            for (let y = 0; y < height; y++) {
+                table[y] = []
+                for (let x = 0; x < width; x++) {
+                    let elem = document.createElement('div');
+                    elem.classList.add('case');
+                    elem.style.gridColumnStart = x + 1;
+                    elem.style.gridRowStart = y + 1;
+                    demineur.appendChild(elem);
+                    table[y][x] = 0
+                    elem.addEventListener('click',()=>checkCase(x,y))
+                    elem.addEventListener('contextmenu', function(ev) {
+                        ev.preventDefault()
+                        elem.classList.toggle('flag')
+                        return false
+                    }, false)
+                }
+            }
+            while(total > 0) {
+                let x = Math.floor(Math.random() * width)
+                let y = Math.floor(Math.random() * height)
+                let elem = demineur.children[x + y * width]
+                if(table[y][x]=="B") continue
+                table[y][x] = "B"
+
+                // Ligne du haut
+                if(table[y-1] && isNumeric(table[y-1][x-1]))  table[y-1][x-1]++
+                if(table[y-1] && isNumeric(table[y-1][x]))    table[y-1][x]++
+                if(table[y-1] && isNumeric(table[y-1][x+1]))  table[y-1][x+1]++
+                
+                // Gauche et droite
+                if(isNumeric(table[y][x-1]))  table[y][x-1]++
+                if(isNumeric(table[y][x+1]))  table[y][x+1]++
+
+                // Ligne du bas
+                if(table[y+1] && isNumeric(table[y+1][x-1]))  table[y+1][x-1]++
+                if(table[y+1] && isNumeric(table[y+1][x]))    table[y+1][x]++
+                if(table[y+1] && isNumeric(table[y+1][x+1]))  table[y+1][x+1]++
+
+                total--
+            }
+            console.log(table)
+
+
+            // for (let y = 0; y < height; y++) {
+            //     for (let x = 0; x < width; x++) {
+            //         let elem = demineur.children[x + y * width]
+            //         if(table[y][x]=="B") elem.classList.add('bombe')
+            //         if(isNumeric(table[y][x])) elem.innerText = table[y][x]
+            //     }
+            // }
+
+
+        </script>
+    </body>
+</html>

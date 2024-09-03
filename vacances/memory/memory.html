@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jeu de memory</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Jeu du memory</h2>
+        <div class="content"></div>
+        <button class="btnReset">Rejouer</button>
+        <div class="victory-message" id="victoryMessage"></div>
+        
+    </div>
+    <script>
+        const table = ["😂", "😂", "❤️", "❤️", "😎", "😎", "😴", "😴", "😭", "😭", "😡", "😡", "🤠", "🤠", "😈", "😈"];
+        let mix_table = table.sort(() => Math.random() - 0.5);
+        let attempts = 0;
+        
+        for (let i = 0; i < mix_table.length; i++) {
+            let box = document.createElement('div');
+            box.className = 'item';
+            box.innerHTML = mix_table[i];
+            
+            box.onclick = function () {
+                if (!this.classList.contains('boxMatch') && document.querySelectorAll('.boxOpen').length < 2) {
+                    this.classList.add('boxOpen');
+                    setTimeout(() => {
+                        if (document.querySelectorAll('.boxOpen').length > 1) {
+                            attempts++;
+                            if (document.querySelectorAll('.boxOpen')[0].innerHTML == document.querySelectorAll('.boxOpen')[1].innerHTML) {
+                                document.querySelectorAll('.boxOpen')[0].classList.add('boxMatch');
+                                document.querySelectorAll('.boxOpen')[1].classList.add('boxMatch');
+                                
+                                document.querySelectorAll('.boxOpen')[1].classList.remove('boxOpen');
+                                document.querySelectorAll('.boxOpen')[0].classList.remove('boxOpen');
+                                
+                                if (document.querySelectorAll('.boxMatch').length == mix_table.length) {
+                                    setTimeout(() => {
+                                        document.getElementById('victoryMessage').innerHTML = `<div>Félicitations ! <br> Vous avez gagné en ${attempts} tentatives.</div>
+                                        <img src="confetti.gif" alt="confetti">`;
+                                        document.getElementById('victoryMessage').style.display = 'block';
+                                    }, 500);
+                                }
+                            } else {
+                                document.querySelectorAll('.boxOpen')[1].classList.add('unmatch');
+                                document.querySelectorAll('.boxOpen')[0].classList.add('unmatch');
+                                
+                                setTimeout(() => {
+                                    document.querySelectorAll('.boxOpen')[1].classList.remove('boxOpen', 'unmatch');
+                                    document.querySelectorAll('.boxOpen')[0].classList.remove('boxOpen', 'unmatch');
+                                }, 500); 
+                            }
+                        }
+                    }, 500);
+                }
+            }
+            document.querySelector('.content').appendChild(box);
+        }
+        
+        document.querySelector('.btnReset').addEventListener('click', function () {
+            location.reload();
+        });
+        
+        
+    </script>
+</body>
+</html>

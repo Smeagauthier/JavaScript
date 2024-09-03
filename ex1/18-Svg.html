@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+	<head>
+		<title>SVG</title>
+		<meta charset="UTF-8" />
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style>
+			.svg{
+				display: block;
+				margin: auto;
+				width: 500px;
+				overflow: visible;
+			}
+			.svg .fond{
+				fill: #ff0;
+				transition: fill 0.3s ease-in-out;
+			}
+			.svg .icon{
+				stroke: rgb(0, 238, 255);
+				stroke-width: 0px;
+				transition: stroke-width 0.3s ease-in-out;
+			}
+			.svg.focus .icon{
+				stroke-width: 10px;
+			}
+			.svg #instagramGroup{
+				transform: rotate(0deg);
+				transform-origin: center;
+				transition: transform 0.3s ease-in-out;
+			}
+			.svg.focus #instagramGroup{
+				transform: rotate(15deg);
+			}
+			.svg.focus #instagramGroup .fond{
+				fill: rgb(255, 123, 0);
+			}
+		</style>
+	</head>
+	<body>
+
+		<svg class="svg" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 448 448">
+			<g id="instagramGroup">
+			  	<rect class="fond" x="40.1" y="40.1" width="367.9" height="367.9"/>
+			  	<path class="icon" d="M224.1,109.2c-63.6,0-114.9,51.3-114.9,114.9s51.3,114.9,114.9,114.9,114.9-51.3,114.9-114.9-51.3-114.9-114.9-114.9ZM224.1,298.8c-41.1,0-74.7-33.5-74.7-74.7s33.5-74.7,74.7-74.7,74.7,33.5,74.7,74.7-33.6,74.7-74.7,74.7h0ZM370.5,104.5c0,14.9-12,26.8-26.8,26.8s-26.8-12-26.8-26.8,12-26.8,26.8-26.8,26.8,12,26.8,26.8ZM446.6,131.7c-1.7-35.9-9.9-67.7-36.2-93.9C384.2,11.6,352.4,3.4,316.5,1.6c-37-2.1-147.9-2.1-184.9,0-35.8,1.7-67.6,9.9-93.9,36.1S3.3,95.7,1.5,131.6c-2.1,37-2.1,147.9,0,184.9,1.7,35.9,9.9,67.7,36.2,93.9,26.3,26.2,58,34.4,93.9,36.2,37,2.1,147.9,2.1,184.9,0,35.9-1.7,67.7-9.9,93.9-36.2,26.2-26.2,34.4-58,36.2-93.9,2.1-37,2.1-147.8,0-184.8h0ZM398.8,356.2c-7.8,19.6-22.9,34.7-42.6,42.6-29.5,11.7-99.5,9-132.1,9s-102.7,2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7,9-132.1c7.8-19.6,22.9-34.7,42.6-42.6,29.5-11.7,99.5-9,132.1-9s102.7-2.6,132.1,9c19.6,7.8,34.7,22.9,42.6,42.6,11.7,29.5,9,99.5,9,132.1s2.7,102.7-9,132.1Z"/>
+  			</g>
+		</svg>
+
+		<script type="text/javascript">
+
+			const svg = document.querySelector('.svg')
+			const instagram = svg.querySelector('#instagramGroup')
+			instagram.addEventListener('click',()=>{
+				svg.classList.toggle('focus')
+			})
+
+		</script>
+	</body>
+</html>

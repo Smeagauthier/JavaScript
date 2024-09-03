@@ -1,0 +1,68 @@
+<html>
+    <head>
+        <title>Exercice 19</title>
+        
+        <style>
+            /* html,body{margin:0;padding:0;height:100%;width:100%;} */
+            .changed{
+                background-color:lightcoral;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        
+        <input type="text" class="input" placeholder="nom" />
+        <input type="number" class="score" placeholder="score" />
+        <button class="save">Sauvegarder</button>
+        
+        <script type="text/javascript">
+            
+            const name = document.querySelector('.input')
+            const score = document.querySelector('.score')
+            const save = document.querySelector('.save')
+
+            save.addEventListener('click',()=>{
+                const tab = { // préparation d'un tableau contenant les valeurs
+                    name: name.value,
+                    score: score.value
+                }
+                localStorage.setItem('data_user',JSON.stringify(tab)) // conversion du tableau en JSON et enregistrement
+            
+                checkChange(name,'name')
+                checkChange(score,'score')
+            })
+
+            if(localStorage.getItem('data_user')){ // Si la donnée existe, alors on intègre les données sauvegardées dans les champs
+                const datas = JSON.parse(localStorage.getItem('data_user'))
+                console.log(datas)
+                name.value = datas.name
+                score.value = datas.score
+            }
+
+            const checkChange = (focus,cible) =>{
+                let change = false
+                const datas = (localStorage.getItem('data_user'))? JSON.parse(localStorage.getItem('data_user')) : {name:"",score:""}
+                if(datas[cible]!=focus.value) change = true
+                
+                if(change) focus.classList.add('changed')
+                else focus.classList.remove('changed')
+            }
+
+            name.addEventListener('change',()=>{
+                checkChange(name,'name')
+            })
+            name.addEventListener('keyup',()=>{
+                checkChange(name,'name')
+            })
+            score.addEventListener('change',()=>{
+                checkChange(score,'score')
+            })
+            score.addEventListener('keyup',()=>{
+                checkChange(score,'score')
+            })
+
+            
+        </script>
+    </body>
+</html>

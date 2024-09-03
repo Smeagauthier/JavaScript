@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liste des pays</title>
+</head>
+<body>
+    <select name="countrySelect" class="loadCountries">
+        <option value="" disabled selected> Choisissez un pays</option>
+    </select>
+    
+    <script type="text/javascript">
+        fetch('pays.json')
+        .then(response => response.json())
+        .then(data => {
+            console.log('data :>> ', data);
+            const select = document.querySelector('.loadCountries');
+            data.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.code; 
+                option.innerHTML = country.name_fr;
+                select.appendChild(option); 
+            });
+        })
+    </script>
+</body>
+</html>

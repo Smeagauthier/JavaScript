@@ -1,0 +1,84 @@
+<html>
+<head>
+    <title>Exercice 16</title>
+    
+    <style>
+        /* html,body{margin:0;padding:0;height:100%;width:100%;} */
+        
+        
+    </style>
+    
+</head>
+<body>
+    <div class="inputs"></div>
+    <div class="addInput">+</div>
+    
+    <script type="text/javascript">
+        const inputs = document.querySelector('.inputs')
+        const add = document.querySelector('.addInput')
+        
+        // Sauvegarder les données dans le localStorage
+        const saveDatas = () => {
+            const toSave = [];
+            const list = inputs.querySelectorAll('.input')
+            list.forEach((elem) => {
+                const name = elem.querySelector('.name').value
+                const stock = elem.querySelector('.stock').value
+                toSave.push({ name, stock })
+            });
+            localStorage.setItem('list', JSON.stringify(toSave));
+        }
+        
+        // Ajouter une nouvelle entrée (quand on clique sur +)
+        const addInput = (text = '', s = 1) => {
+            const input = document.createElement('div')
+            input.classList.add('input')
+            
+            const name = document.createElement('input')
+            name.classList.add('name')
+            name.setAttribute('type', "text")
+            name.value = text
+            input.appendChild(name)
+            
+            const stock = document.createElement('input')
+            stock.classList.add('stock')
+            stock.setAttribute('type', "number")
+            stock.value = s
+            input.appendChild(stock)
+            
+            const remove = document.createElement('span')
+            remove.classList.add('remove')
+            remove.innerText = "X"
+            input.appendChild(remove)
+            
+            remove.addEventListener('click', (e) => {
+                input.remove()
+                saveDatas()
+            });
+            
+            inputs.appendChild(input)
+            name.focus()
+            name.addEventListener('keyup', saveDatas)
+            name.addEventListener('change', saveDatas)
+            stock.addEventListener('keyup', saveDatas)
+            stock.addEventListener('change', saveDatas)
+        }
+        
+        // Ajouter une nouvelle entrée lorsqu'on clique sur "+"
+        add.addEventListener('click', (e) => {
+            addInput('', 1)
+            saveDatas()
+        });
+        
+        // Charger les données sauvegardées à partir du localStorage
+        if (localStorage.getItem('list')) {
+            const list = JSON.parse(localStorage.getItem('list'))
+            list.forEach((elem) => {
+                addInput(elem.name, elem.stock)
+            });
+        } else {
+            addInput('', 1)
+        }
+    </script>
+</body>
+</html>

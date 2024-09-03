@@ -1,0 +1,21 @@
+*{
+    margin: 0; 
+    padding:0;
+    box-sizing: border-box;
+}
+
+.blob {
+    width: 200px;
+    height: 200px;
+    background: radial-gradient(circle, rgba(255,0,150,1) 0%, rgba(0,204,255,1) 100%);
+    border-radius: 50%;
+    position: absolute;
+    animation: move 5s infinite;
+    filter: blur(50px);
+  }
+  
+  @keyframes move {
+    0% { transform: translate(0, 0); }
+    50% { transform: translate(100px, 100px); }
+    100% { transform: translate(0, 0); }
+  }
